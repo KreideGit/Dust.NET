@@ -5,4 +5,19 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Dust.NET\Dust.NET.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="fragment.glsl" />
+      <Content Include="fragment.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="vertex.glsl" />
+      <Content Include="vertex.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

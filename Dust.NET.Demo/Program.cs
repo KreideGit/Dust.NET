@@ -1,12 +1,10 @@
 ﻿using System;
+using Dust.NET.Core;
 
 namespace Dust.NET.Demo
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        public static void Main(string[] args) => new Window().Run();
     }
 }
