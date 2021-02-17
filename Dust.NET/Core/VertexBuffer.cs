@@ -16,8 +16,8 @@ namespace Dust.NET.Core
         public VertexBuffer(IEnumerable<T> vertices, VertexBufferLayout layout)
         {
             Layout = layout;
-            _handle = GL.GenBuffer();
             VertexSize = Marshal.SizeOf(typeof(T));
+            _handle = GL.GenBuffer();
             
             T[] data = vertices.ToArray();
             Bind();

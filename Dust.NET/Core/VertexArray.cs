@@ -5,6 +5,8 @@ namespace Dust.NET.Core
 {
     public class VertexArray : IDisposable
     {
+        public IndexBuffer IndexBuffer { get; private set; }
+        
         private readonly int _handle;
         private int _attributeIndex;
         
@@ -34,6 +36,14 @@ namespace Dust.NET.Core
                 _attributeIndex++;
             }
 
+            return this;
+        }
+
+        public VertexArray SetIndexBuffer(IndexBuffer indexBuffer)
+        {
+            Bind();
+            indexBuffer.Bind();
+            IndexBuffer = indexBuffer;
             return this;
         }
 

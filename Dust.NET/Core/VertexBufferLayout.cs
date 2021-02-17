@@ -1,48 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Dust.NET.Core
 {
-    public class VertexBufferLayout : IEnumerable<VertexBufferLayoutElement>
+    public class VertexBufferLayout : IEnumerable<IVertexBufferElement>
     {
-        private readonly List<VertexBufferLayoutElement> _elements;
+        private readonly Dictionary<string, IVertexBufferElement> _elements;
         private int _nextOffset;
         
         public VertexBufferLayout()
         {
-            _elements = new List<VertexBufferLayoutElement>();
+            _elements = new Dictionary<string, IVertexBufferElement>();
             _nextOffset = 0;
         }
-        
-        public VertexBufferLayout AddFloatElement(int dimensions, bool normalized = false)
+
+        public IVertexBufferElement this[string name]
         {
-            AddElement(dimensions, VertexAttribPointerType.Float, sizeof(float), normalized);
-            return this;
-        }
-        
-        public VertexBufferLayout AddUintElement(int dimensions, bool normalized = false)
-        {
-            AddElement(dimensions, VertexAttribPointerType.UnsignedInt, sizeof(uint), normalized);
-            return this;
-        }
-        
-        private void AddElement(int dimensions, VertexAttribPointerType type, int size, bool normalized)
-        {
-            VertexBufferLayoutElement element = new()
+            get => _elements[name];
+            set
             {
-                Dimensions = dimensions,
-                Type = type,
-                Offset = _elements.Count == 0 ? _nextOffset : _elements.Last().Offset + _nextOffset,
-                Normalized = normalized
-            };
-
-            _elements.Add(element);
-            _nextOffset = dimensions * size;
+                value.Name = name;
+                value.Offset = _elements.Count == 0 ? _nextOffset : _elements.Last().Value.Offset + _nextOffset;
+                _elements[name] = value;
+                _nextOffset += value.Dimensions * value.Size;
+            }
         }
 
-        public IEnumerator<VertexBufferLayoutElement> GetEnumerator() => _elements.GetEnumerator();
+        public IEnumerator<string, IVertexBufferElement> GetEnumerator() => _elements.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
