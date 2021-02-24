@@ -1,5 +1,6 @@
 ﻿using System;
 using Dust.NET.Core;
+using Dust.NET.Core.Rendering;
 
 namespace Dust.NET.Demo
 {
